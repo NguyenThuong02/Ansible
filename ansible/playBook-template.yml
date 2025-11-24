@@ -1,0 +1,14 @@
+---
+-   name: demo test Template
+    hosts: host2
+    become_user: root
+
+    tasks:
+        -   template:
+                src: ./foo.j2
+                dest: /tmp/file.conf
+                #owner: bin
+                #group: wheel
+                #mode: 0644
+    vars:
+        custome_variable: demo

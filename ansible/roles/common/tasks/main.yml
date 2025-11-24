@@ -1,0 +1,10 @@
+---
+-  name: Test ping
+   ping:
+
+-  name: copy file
+   ansible.builtin.copy:
+     src: testCopy
+     dest: /tmp/testCopy
+       #owner: root
+       #group: root

@@ -1,0 +1,20 @@
+---
+-   hosts: all 
+    roles:
+        - common
+    tasks:
+        -   name: TestPing
+            ping:
+        -   name: getIP
+            command:
+                cmd: ip a
+            register: ip_output
+        -   name: debug_test
+            debug:
+              #var: thuong
+              # var: bienA
+                msg: "thuong = {{thuong}}, bien A la = {{bienA}}"
+    vars:
+        thuong: 'done roi nhe'
+    vars_files:
+        -   ./vars/extand_vars

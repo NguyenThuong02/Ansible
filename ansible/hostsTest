@@ -1,0 +1,21 @@
+#100.94.113.18
+#192.168.254.128
+
+#Có the viet duoi dang partern, neu nhu có các dãy so giong nhau
+#192.168.254.[128:129]
+
+
+#Có the gom nhom cac hosts thanh group
+#
+#192.168.254.128
+#[webHost]
+#100.94.113.18
+#
+#
+[host1]
+192.168.254.128
+[host2]
+100.94.113.18
+[server:children]
+host1
+host2

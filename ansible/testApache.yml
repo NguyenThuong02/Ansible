@@ -1,0 +1,9 @@
+---
+- hosts: webservers
+  become: true
+  roles:
+    - role: lab-apache
+      # override defaults (tùy ý)
+      apache_index_title: "Trang demo Ansible Role - Thuong"
+      apache_index_message: "Deployed via role 'apache' từ ansible-lab-apache"
+

@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ apache_index_title }}</title>
+</head>
+<body>
+  <h1>{{ apache_index_title }}</h1>
+  <p>{{ apache_index_message }}</p>
+  <p>Managed by Ansible role: <strong>apache</strong></p>
+  <p>Host: {{ inventory_hostname }} ({{ ansible_fqdn | default('no-fqdn') }})</p>
+</body>
+</html>
+
