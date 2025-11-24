@@ -1,0 +1,4 @@
+---
+apache_pkg: "apache2"
+apache_service: "apache2"
+apache_config_dir: "/etc/apache2"

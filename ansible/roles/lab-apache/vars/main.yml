@@ -1,0 +1,7 @@
+---
+# Common variables
+apache_document_root: "/var/www/html"
+apache_dir_mode: "0755"
+apache_file_mode: "0644"
+apache_owner: "root"
+apache_group: "root"

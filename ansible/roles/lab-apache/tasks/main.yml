@@ -1,36 +1,68 @@
----
-- name: Determine package and service names
-  set_fact:
-    apache_pkg_debian: "apache2"
-    apache_service_debian: "apache2"
-    apache_pkg_redhat: "httpd"
-    apache_service_redhat: "httpd"
+#---
+#- name: Determine package and service names
+#  set_fact:
+#    apache_pkg_debian: "apache2"
+#    apache_service_debian: "apache2"
+#    apache_pkg_redhat: "httpd"
+#    apache_service_redhat: "httpd"
+#
+#- name: Determine package and service names
+#  set_fact:
+#    apache_pkg: "{{ apache_pkg_debian if ansible_os_family == 'Debian' else apache_pkg_redhat }}"
+#    apache_service: "{{ apache_service_debian if ansible_os_family == 'Debian' else apache_service_redhat }}"
+#
+#- name: Install Apache package
+#  package:
+#    name: "{{ apache_pkg }}"
+#    state: present
+#
+#- name: Ensure document root exists (Debian/RedHat default)
+#  file:
+#    path: /var/www/html
+#    state: directory
+#    owner: root
+#    group: root
+#    mode: '0755'
+#
+#- name: Deploy index template
+#  template:
+#    src: index.html.j2
+#    dest: /var/www/html/index.html
+#    mode: '0644'
+#    owner: root
+#    group: root
+#  notify: restart apache
+#
+#- name: Ensure Apache service is running and enabled
+#  service:
+#    name: "{{ apache_service }}"
+#    state: started
+#    enabled: yes
 
-- name: Determine package and service names
-  set_fact:
-    apache_pkg: "{{ apache_pkg_debian if ansible_os_family == 'Debian' else apache_pkg_redhat }}"
-    apache_service: "{{ apache_service_debian if ansible_os_family == 'Debian' else apache_service_redhat }}"
+---
+- name: Include OS-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Install Apache package
   package:
     name: "{{ apache_pkg }}"
     state: present
 
-- name: Ensure document root exists (Debian/RedHat default)
+- name: Ensure document root exists
   file:
-    path: /var/www/html
+    path: "{{ apache_document_root }}"
     state: directory
-    owner: root
-    group: root
-    mode: '0755'
+    owner: "{{ apache_owner }}"
+    group: "{{ apache_group }}"
+    mode: "{{ apache_dir_mode }}"
 
 - name: Deploy index template
   template:
     src: index.html.j2
-    dest: /var/www/html/index.html
-    mode: '0644'
-    owner: root
-    group: root
+    dest: "{{ apache_document_root }}/index.html"
+    mode: "{{ apache_file_mode }}"
+    owner: "{{ apache_owner }}"
+    group: "{{ apache_group }}"
   notify: restart apache
 
 - name: Ensure Apache service is running and enabled
@@ -38,4 +70,3 @@
     name: "{{ apache_service }}"
     state: started
     enabled: yes
-
