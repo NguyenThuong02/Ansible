@@ -53,3 +53,36 @@ Kết quả:
 yamlapache_pkg: "httpd"           # Từ RedHat.yml
 apache_service: "httpd"       # Từ RedHat.yml
 apache_config_dir: "/etc/httpd"    # Từ RedHat.yml
+
+
+### Timeline thực tế:
+
+T0: Gathering Facts
+    └─ ansible_os_family = "Debian"
+
+T1: Load vars/main.yml (tự động)
+    └─ apache_document_root = "/var/www/html"
+    └─ apache_dir_mode = "0755"
+
+T2: include_vars "Debian.yml"
+    └─ String interpolation: "{{ ansible_os_family }}.yml"
+    └─ Kết quả: "Debian.yml"
+    └─ Ansible mở ĐÚNG file: vars/Debian.yml
+    └─ Load vào memory:
+        ├─ apache_pkg = "apache2"
+        ├─ apache_service = "apache2"
+        └─ apache_config_dir = "/etc/apache2"
+    
+    └─ File vars/RedHat.yml: KHÔNG được đụng đến ✗
+
+T3: Sử dụng biến
+    └─ apache_pkg có giá trị: "apache2"
+
+### Tóm lại:
+include_vars: "{{ ansible_os_family }}.yml" = "Chỉ load file có tên là giá trị của biến ansible_os_family"
+
+* Nếu ansible_os_family = "Debian" → Chỉ load Debian.yml
+* Nếu ansible_os_family = "RedHat" → Chỉ load RedHat.yml
+* KHÔNG BAO GIỜ load cả hai cùng lúc!
+
+Đây là cách Ansible biết load đúng file tương ứng với hệ điều hành! 😊
